@@ -1,0 +1,780 @@
+" a list of terminal-editor pairs, their window numbers and buffer numbers
+let g:list_term = []
+
+" generate the terminal environment
+"    vim: can use win_execute or getbufline
+" neovim: can use windo or bufdo
+function! EnvTerm()
+	" neovim terminal setup
+
+	" get current (editor) buffer number
+	"let win_nr_editor = winnr()
+	let win_id_editor = win_getid()
+	let buf_nr_editor = bufnr("%")
+
+	" query if user wants to initialize the terminal with a command,
+	" for example, 'python'
+	"
+	" TODO
+	call inputsave()
+	let temp_cmd = input("Enter initializing command: " ,"python")
+	call inputrestore()
+	
+	" create a terminal window
+	vnew | terminal
+	
+	" make it modifiable
+	set modifiable
+
+
+	" get terminal window number and buffer number
+	let win_nr_term = winnr()
+	let win_id_term = win_getid()
+	let buf_nr_term = bufnr("%")
+
+	" execute initialization command 'temp_cmd'
+	if match( temp_cmd, '^\s*$' ) < 0
+		" command is non-empty string
+		
+		" backup register 'a'
+		let a = @a
+
+		" place command in register 'a'
+		let @a = temp_cmd . "\r"
+		exe win_nr_term . "windo put a"
+
+		" restore register 'a'
+		let @a = a
+
+	endif
+
+	" one can have multiple window splits of the editor
+	" a possible (future) feature is to use the same terminal 
+	" with multiple files
+	let dict_temp = { 'editor_win_id':win_id_editor, 'editor_buf_nr':buf_nr_editor, 'term_win_id':win_id_term, 'term_buf_nr':buf_nr_term }
+
+	" add the dictionary to the global list of editor-terminal pairs
+	let g:list_term += [dict_temp]
+
+	" return to editor window
+	let editor_win_nr = win_id2win( dict_temp['editor_win_id'] )
+	exe editor_win_nr . "wincmd w"
+
+endfunction "
+
+" when a new window is opened,
+" need to check whether the new window
+" is actually a split of the editor,
+" in which case,
+" we want one to be able to execute lines from that window
+" so we add it to the editor list
+function! SetBufRecentWin()
+	" a new window had opened, get its buffer number
+	let temp_buf = bufnr("%")
+	" check all pairs of editor-buffers, and update the recent window
+	for i_pair in g:list_term
+		" if it is an editor window
+		if temp_buf == i_pair['editor_buf_nr']
+			" set the editor window to current win number
+			let i_pair['editor_win_id'] = win_getid()
+			" should be in no other pairs
+			break
+		endif
+		" if it is a terminal window
+		if temp_buf == i_pair['term_buf_nr']
+			" set the editor window to current win number
+			let i_pair['term_win_id'] = win_getid()
+			" should be in no other pairs
+			break
+		endif
+	endfor
+endfunction "
+
+"  --- NO NEED ---
+"  --- we will list by buffer number ---
+" autocmd WinNew * echo "new Win"
+autocmd WinNew * call SetBufRecentWin()
+" can use bufname("%") to get current buffer's name
+" bufwinid(), bufwinnr(), 
+" bufnr("%")  --number of the current buffer
+" TODO
+" -- closing a window
+" -- if a buffer no-longer exists
+
+function! ExecuteCodeList( in_list )
+
+	"" DEBUG
+	"echo "Executing list:"
+	"echo a:in_list
+
+	" get current window id
+	let initial_win_nr = winnr()
+	"let initial_win_id = win_getid()
+
+	" get current buffer number
+	let current_buf_num = bufnr("%")
+
+	" check if in editor or in python shell
+	let in_system = 0
+
+	" if in editor, then send to shell
+	" if in shell,  then copy to editor
+	for i_dict in g:list_term
+		"" get the keys (buffer numbers)
+		if     i_dict['editor_buf_nr'] == current_buf_num
+			" if current buffer is an editor  buffer
+			" then execute code in the terminal window
+		
+			" backup register 'a'
+			let reg_a = @a
+			
+			"put line of code in a temp_register 'a' and append a carriage return "\r"
+			for i_line in a:in_list
+
+				" replace tabs by spaces
+				let i_code = substitute( i_line, "\t", "  ", "g" )
+				"put line of code in a temp_register 'a' and append a carriage return "\r"
+				let @a  = i_code . "\r"
+				
+				" execute line in python shell
+				let term_win_nr = win_id2win( i_dict['term_win_id'] )
+				exe term_win_nr . 'windo put a'
+
+			endfor
+			
+			" restore register 'a'
+			let @a = reg_a
+			"
+			" buffer was found
+			let in_system = 1
+			" no other term-editor pair will be activated
+			break
+
+		"elseif index( i_dict['term_buf'  ], current_buf_num) >= 0
+		elseif i_dict['term_buf_nr'  ] == current_buf_num
+			" if current buffer is a terminal buffer
+			" then copy line of code to the last used editor window
+
+			"" get line
+			"let temp_line = a:in_text
+
+			"" copy line to file
+			"exe i_dict['editor_win'] . 'windo normal o' . temp_line
+			
+			" copy lines to file
+			for i_line in a:in_list
+				let editor_win_nr = win_id2win( i_dict['editor_win_id'] )
+				exe editor_win_nr . 'windo normal o' . i_line
+			endfor
+
+			" buffer was found
+			let in_system = 1
+			" no other term-editor pair will be activated
+			break
+
+		endif
+
+	endfor
+	
+	" check if is not in editor-terminal pair
+	if in_system == 0
+		" if not, then assume this is an editor,
+		" and generate the environment
+		call EnvTerm()
+
+		" call command again
+		call ExecuteCodeList( a:in_list )
+
+	endif
+	
+	" return to original window
+	exe initial_win_nr . "wincmd w"
+	
+
+endfunction "
+
+
+" find number of indents
+"function! IndentLevel( in_str, in_tabs )
+function! IndentLevel( in_str )
+
+	" check if 'expandtab' is active
+	" (meaning, uses actual "\t" characters for indents)
+	let no_tabs = &expandtab
+	"
+	if no_tabs
+		" user uses spaces instead of "\t" characters for indent
+		let tab_len = shiftwidth()
+		" starting with their first instance, remove all non-space characters 
+		let opening_spaces = substitute(a:in_str, "\\S.*", "", "g")
+		" the number of space characters in the beginning
+		let str_len = strlen(opening_spaces)
+		" get the number of "indents"
+		let num_tabs = str_len / tab_len
+	else
+		" if user uses "\t" characters for indent
+		" get the number of indents
+		let num_tabs = count( a:in_str, "\t" )
+	endif
+
+	" return the indent level 'num_tabs'
+	return num_tabs
+
+endfunction
+
+
+
+" maybe only level-0 carriage-returns matter
+" add indented carriage-return lines
+" so that the interperter could execute blocks of code
+function! IndentedCarriageReturns( in_list )
+
+	let DEBUG = 1
+
+	" list for output
+	let out_list = []
+
+	" current and next tab levels
+	let tab_level = 0
+	let tab_level_next = 0
+
+	" current line number in list
+	"let line_num = 0
+
+	" number of added carriage-returns
+	"let num_added = 0
+
+	" check if 'expandtab' is active
+	" (meaning, uses actual "\t" characters for indents)
+	let no_tabs = &expandtab
+
+	if no_tabs == 1
+		let tab_len = shiftwidth()
+	endif
+
+	" assume tab_level of position 0 is 0
+	for i_line in a:in_list
+		" for each line in the list
+
+		" get "next" indent level
+		let tab_level_next = IndentLevel( i_line )
+
+		"if line_num == 0
+		"	" if at first line
+		"	let tab_level = 
+
+		"endif
+		
+		" if "next" tab level is lower, include a line containing
+		" carriage return with the same number of indents
+		" as the "next"
+		if tab_level_next < tab_level
+
+			" only add carriage return if at level 0
+			if tab_level_next == 0
+				" going to level zero
+				
+				" DEBUG
+				if DEBUG
+					echom "tab level decreases -- adding carriage-return at level " . tab_level_next
+				endif
+
+				" add a line
+				if no_tabs
+					" if user uses spaces instead of tabs
+					" add carriage-return line to list
+					" before adding line
+					let out_list += [ repeat(" ", tab_level_next*tab_len) . "\r" ]
+				else
+					" user uses "\t" characters for indent
+					" add carriage-return line to list
+					" before adding line
+					let out_list += [ repeat("\t", tab_level_next) . "\r" ]
+				endif
+
+			endif
+
+		endif
+
+		" add line to output 'out_list'
+		let out_list += [ i_line ]
+
+		" make "next" tab level into current tab_level
+		let tab_level = tab_level_next
+
+	endfor
+
+	" if final tab level is not zero,
+	" add a carriage return
+	if tab_level > 0
+		let out_list += [ "\r" ]
+		" DEBUG
+		if DEBUG
+			echom "adding closing Carriage-return"
+		endif
+	endif
+
+	return out_list
+
+endfunction
+
+
+" function to remove empty or comment lines
+"call filter( temp_list,  '^\s*\($\|#\)' )
+function! NonEmptyLine(idx, val)
+	" return True if keep item
+	return match( a:val, '^\s*\($\|#\)' ) < 0
+endfunction
+
+" clean a list using the function 'NonEmptyLine'
+function! CleanList( in_list )
+
+	" can do copy(), [:], deepcopy()
+	let out_list = a:in_list
+
+	" aaa remove empty or commented lines
+	call filter( a:in_list, function('NonEmptyLine') )
+	
+	" bbb remove comments from lines
+	" issue with '#' symbol inside quotation
+	" TODO
+	
+	" replace tabs by spaces
+	" TODO
+
+	return out_list
+
+endfunction
+
+
+" execute lines selected
+function! ExecuteSelection()
+
+	"" backup register 'a'
+	"let a = @a
+
+	"" yank selection into register 'a'
+	"norm "ay
+
+	" create a list of lines
+	"let temp_list = split(@a, "\n")
+	let temp_list = split(@", "\n")
+
+	" clean remove empty and comment lines from the list
+	let code_list = CleanList( temp_list )
+	"
+	"let temp_selection = s:get_visual_selection()
+	
+	" add carriage-return lines when appropriate
+	let code_list_cr = IndentedCarriageReturns( code_list )
+
+	" execute the lines
+	"call ExecuteCodeList( code_list )
+	call ExecuteCodeList( code_list_cr )
+
+	" restore register 'a'
+	"let @a = a
+
+endfunction "
+
+" execute a single line
+function! ExecuteLine()
+
+	" take line and make it into list
+	let temp_list = [ getline('.') ]
+	" getline(',') copies without the "\n" character
+
+	"prune the list
+	let code_list = CleanList( temp_list )
+
+	" execute the lines
+	call ExecuteCodeList( code_list )
+
+endfunction "
+
+
+""function! ExecuteCodeLineRange( in_line_min, in_line_max )
+"function! ExecuteCodeLineRange()
+"
+"	"for i_line in range( a:in_line_min, a:in_line_max )
+"	"	
+"	"	call ExecuteCodeLine( i_line )
+"
+"	"endfor
+"
+"endfunction "
+
+
+" scroll 'in_num' in window 'in_win_nr'
+function! ScrollWin( in_num, in_win_nr )
+
+	" get scroll length
+	if type(a:in_num) == 0
+		" it is a number
+		" DEBUG
+		"echo "a number"
+		" scroll by that amount
+		let scroll_len = a:in_num
+	"
+	elseif type(a:in_num) == 1
+		" DEBUG
+		"echo "a string"
+		"let scroll_len =  float2nr( floor( winheight(a:in_win_nr)/2 ) )
+		let scroll_len =  float2nr( winheight(a:in_win_nr)/2.0 )
+		" it is a string
+		"let ind = index(['U','D'], a:in_num)
+		let ind = index(["U","D"], a:in_num)
+		if ind == 0
+			"it is a 'U'
+			let scroll_len = -scroll_len
+			"pass
+		elseif ind == 1
+			"it is a 'D'
+			" DO nothing
+		else
+			" unknown command
+			return
+		endif
+	"
+	else
+		" unknown command
+		" DEBUG
+		"echo "an unknown type"
+		return
+	endif
+
+	" DEBUG
+	"echo "scroll_len:"
+	"echo scroll_len
+	
+	" switch to window
+	exe a:in_win_nr . "wincmd w"
+
+	" Scroll
+	if scroll_len > 0
+		" scroll down
+		exe "normal " . abs(scroll_len) . "\<C-e>"
+		"exe in_win_nr . "windo " scroll_len . "\<C-e>"
+	else
+		" scroll up
+		exe "normal " . scroll_len . "\<C-y>"
+		"exe in_win_nr . "windo " scroll_len . "\<C-y>"
+	endif
+
+endfunction
+
+
+" get window and call ScrollWin
+" if 'in_num' is a number, scroll by those amount of lines
+" if it is a 'U' or a 'D', scroll half-up or half-down
+" type(number) = 0
+" type(string) = 1
+function! Scroll( in_num )
+		
+	" get current window id
+	let initial_win_id = win_getid()
+	
+	" get current window number
+	let initial_win_nr = winnr()
+
+	" get current buffer number
+	let current_buf_num = bufnr("%")
+
+	" check if in editor or in python shell
+	" if in editor, then send to shell
+	" if in shell,  then copy to editor
+	for i_dict in g:list_term
+
+		if     i_dict['editor_buf_nr'] == current_buf_num
+			" if current buffer is an editor  buffer
+			" then execute code in the terminal window
+			" DEBUG
+			"echo "in editor"
+			
+			" get term   window number
+			let term_win_nr = win_id2win( i_dict['term_win_id'] )
+
+			" scroll
+			call ScrollWin( a:in_num, term_win_nr )
+
+			" no other key-pair
+			" don't consider more dictionaries
+			break
+
+		elseif i_dict['term_buf_nr'  ] == current_buf_num
+			" if current buffer is a terminal buffer
+			" then copy line of code to the last used editor window
+			" DEBUG
+			"echo "in terminal"
+			
+			" get editor window number
+			let editor_win_nr = win_id2win( i_dict['editor_win_id'] )
+			
+			" scroll
+			call ScrollWin( a:in_num, editor_win_nr )
+
+			" don't consider more dictionaries
+			break
+			
+		endif
+	
+	endfor
+	
+	exe initial_win_nr . "wincmd w"
+
+endfunction
+
+
+function! GotoEnd()
+	
+	" get current window id
+	let initial_win_id = win_getid()
+
+	" get current win number
+	let initial_win_nr = winnr()
+
+	" get current buffer number
+	let current_buf_num = bufnr("%")
+
+
+	" check if in editor or in python shell
+	" if in editor, then send to shell
+	" if in shell,  then copy to editor
+	for i_dict in g:list_term
+
+		if     i_dict['editor_buf_nr'] == current_buf_num
+			" if current buffer is an editor  buffer
+			" go to end of the terminal window
+			
+			" switch to terminal window
+			let switch = 1
+			while switch
+				let switch -= win_gotoid( i_dict['term_win_id'] )
+			endwhile
+			" Scroll
+
+			"exe "normal G"
+			normal G
+
+			" don't consider more dictionaries
+			break
+
+		elseif i_dict['term_buf_nr'  ] == current_buf_num
+			" if current buffer is a terminal buffer
+			" go to bottom of editor window
+			
+			let editor_win_nr = win_id2win( i_dict['editor_win_id'] )
+			exe editor_win_nr . "windo normal G"
+
+			" don't consider more dictionaries
+			break
+
+		endif
+			
+	endfor
+		
+	exe initial_win_nr . "wincmd w"
+
+endfunction
+
+
+
+function! SwitchWins()
+
+	" get current buffer number
+	let current_buf_num = bufnr("%")
+
+
+	" check if in editor or in python shell
+	" if in editor, then send to shell
+	" if in shell,  then copy to editor
+	for i_dict in g:list_term
+
+		if     i_dict['editor_buf_nr'] == current_buf_num
+			" if current buffer is an editor  buffer
+			" switch to terminal window
+			
+			" get terminal win number
+			let term_win_nr = win_id2win( i_dict['term_win_id'] )
+
+			" switch to terminal
+			exe term_win_nr . "wincmd w"
+
+			" don't consider more dictionaries
+			break
+
+		elseif i_dict['term_buf_nr'  ] == current_buf_num
+			" if current buffer is a terminal buffer
+			" switch to editor window
+			
+			" get editor win number
+			let editor_win_nr = win_id2win( i_dict['editor_win_id'] )
+
+			" switch to editor window
+			exe editor_win_nr . "wincmd w"
+
+			" don't consider more dictionaries
+			break
+
+		endif
+			
+	endfor
+
+endfunction
+
+
+
+function! ExecuteEntire()
+
+	" get current window id
+	let initial_win_id = win_getid()
+
+	" get current buffer number
+	let current_buf_nr = bufnr("%")
+	"
+	let editor_win_nr = 0
+	let term_win_nr = 0
+	let recognized = 0
+
+	" check if in editor or in python shell
+	" if in editor, then send to shell
+	" if in shell,  then copy to editor
+	for i_dict in g:list_term
+
+		if     i_dict['editor_buf_nr'] == current_buf_nr
+			" if current buffer is an editor  buffer
+			" then execute code in the terminal window
+			
+			" get editor window number
+			let editor_win_nr = winnr()
+			
+			" get terminal window number
+			let term_win_nr = win_id2win( i_dict['term_win_id'] )
+
+			" set initial win number
+			let initial_win_nr = editor_win_nr
+			
+			" this editor is in list
+			let recognized = 1
+			"
+			" don't consider more dictionaries
+			break
+
+		elseif i_dict['term_buf_nr'  ] == current_buf_nr
+			" if current buffer is a terminal buffer
+			" then copy line of code to the last used editor window
+			
+			" get editor window number
+			let editor_win_nr = win_id2win( i_dict['term_win_id'] )
+
+			" get terminal window number
+			let term_win_nr = winnr()
+
+			" switch to editor window
+			exe editor_win_nr . "wincmd w"
+			"
+			" set initial win number
+			let initial_win_nr = term_win_nr
+
+			" this editor is in list
+			let recognized = 1
+
+			" don't consider more dictionaries
+			break
+
+		endif
+			
+	endfor
+		
+	if recognized
+
+		"" switch to editor window
+		"exe editor_win_nr . "wincmd w"
+		
+		" get filename
+		" 1 windo echo expand('%:p')
+		" string to execute
+		let temp = 'exec(open("' . expand('%:p') . '").read())' . "\r"
+		" does NOT work:
+		"let temp = 'exec(open("' . expand('%:p') . '").read())' . "\n"
+
+		" backup register 'a'
+		let a = @a
+
+		" put command into register 'a'
+		let @a = temp
+
+		" execute the string
+		exe term_win_nr . 'windo put a'
+
+		" resore register 'a'
+		let @a = a
+
+	else
+
+		return 0
+
+	endif
+
+	exe initial_win_nr . "wincmd w"
+
+
+endfunction
+
+" key bindings
+"let maplocalleader = "\<Space>"
+"let maplocalleader = "\<Tab>"
+"let maplocalleader = "\<F1>"
+let maplocalleader = "\<F2>"
+
+" initiate environment -- no longer
+"nnoremap <leader>e		  :call EnvTerm()<Cr>
+
+"execute a single line
+nnoremap <localleader><Enter>  :call ExecuteLine()<Cr>
+
+"execute multiple lines of code
+vnoremap <localleader><Enter>  y :call ExecuteSelection()<Cr>
+
+"evaluate variable under the cursor
+nnoremap <localleader>p        viwy :call ExecuteSelection()<Cr>
+nnoremap <localleader>P        viWy :call ExecuteSelection()<Cr>
+
+" Execute entire script file
+nnoremap <localleader>e        :call ExecuteEntire()<Cr>
+
+" switching windows
+nnoremap <localleader>t        :call SwitchWins()<Cr>
+inoremap <localleader>t        \<Esc>:call SwitchWins()<Cr>
+
+"scrolling
+
+" scroll the terminal window
+" use <Crtl> so that can do multiple times
+" small scroll
+nnoremap <C-Down>              :call Scroll(  2 )<Cr>
+nnoremap <C-Up>                :call Scroll( -2 )<Cr>
+" big scroll
+nnoremap <C-Right>             :call Scroll("D")<Cr>
+nnoremap <C-Left>              :call Scroll("U")<Cr>
+" go to end
+nnoremap <localleader>g        :call GotoEnd()<Cr>
+
+" terminal bindings
+" escape
+tnoremap <localleader><Esc>    <C-\><C-n>
+" copy line
+"tnoremap <leader><Space>  
+" motions
+"tnoremap <C-l> <C-\><C-n><C-l>
+"tnoremap <C-h> <C-\><C-n><C-h>
+"tnoremap <C-k> <C-\><C-n><C-k>
+"tnoremap <C-j> <C-\><C-n><C-j>
+" using local leader
+"tnoremap <localleader>l <C-\><C-n><C-w>l
+"tnoremap <localleader>h <C-\><C-n><C-w>h
+"tnoremap <localleader>k <C-\><C-n><C-w>k
+"tnoremap <localleader>j <C-\><C-n><C-w>j
+" switch
+tnoremap <localleader>t        <C-\><C-n>:call SwitchWins()<Cr>
+

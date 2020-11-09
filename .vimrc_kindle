@@ -1,0 +1,11 @@
+" no cursor column
+	set nocursorcolumn
+	map <C-j> <C-w>j :set nocursorcolumn<Cr>
+	map <C-k> <C-w>k :set nocursorcolumn<Cr>
+	map <C-h> <C-w>h :set nocursorcolumn<Cr>
+	map <C-l> <C-w>l :set nocursorcolumn<Cr>
+
+
+" Folds
+	highlight FoldColumn guibg=NONE guifg=NONE term=NONE cterm=NONE ctermbg=NONE ctermfg=NONE
+	highlight Folded guibg=NONE guifg=NONE term=NONE cterm=NONE ctermbg=NONE ctermfg=NONE

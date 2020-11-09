@@ -1,0 +1,104 @@
+" Abbreviations
+	"A
+	iabbrev App App.\ \ref{
+	"
+	iabbrev akpha alpha
+	"iabbrev al[ha alpha
+	iabbrev alha  alpha
+	" B
+	iabbrev bgiskip bigskip
+	iabbrev bigski  bigskip
+	" C
+	iabbrev conts const
+	"
+	iabbrev xos cos
+	"
+	" D
+   iabbrev dor dot
+   iabbrev ddor ddot
+   "
+	" E
+	iabbrev Eq Eq.\ \eqref{
+	iabbrev Eqs Eqs.\ \eqref{} and \eqref{
+	"
+   iabbrev eqerf eqref
+	iabbrev rqref eqref
+   "
+	" F
+	iabbrev fac  frac
+	iabbrev farc frac
+	"
+	iabbrev Fig Fig.\ \ref{
+	"
+	" G
+	iabbrev famma gamma
+	iabbrev Famma Gamma
+	"
+	" H
+	iabbrev jbar hbar
+	"
+	" L
+	iabbrev loingrightarrow longrightarrow
+	iabbrev longrightattow  longrightarrow
+	iabbrev longrigtarrow   longrightarrow
+	iabbrev longrigharrow   longrightarrow
+	"
+	" M
+   iabbrev mahtbhf mathbf
+	iabbrev mahtbf  mathbf
+   iabbrev matbhf  mathbf
+   iabbrev mathfb  mathbf 
+   iabbrev mathvf  mathbf 
+	iabbrev mthbf   mathbf
+	"
+	iabbrev mathacal mathcal
+	iabbrev nathacal mathcal
+	iabbrev nathcal  mathcal
+	"
+	" M
+	iabbrev amtbf  mathbf
+	iabbrev nathbf mathbf
+	"
+	iabbrev mathcak mathcal
+	"
+	" N
+	iabbrev vu nu
+	"
+	" O
+	iabbrev otimtes otimes
+	"
+	" P
+	iabbrev pji phi
+	iabbrev Pji Phi
+	"
+	" R
+	iabbrev Ref Ref.\ \cite{
+	"
+	iabbrev righarrow  rightarrow
+	iabbrev righarrow0  rightarrow0
+	iabbrev rigtarrow  rightarrow
+	iabbrev rigtarrow0  rightarrow0
+	iabbrev rihgtarrow rightarrow
+	iabbrev rihgtarrow0 rightarrow0
+	"
+	" S
+	iabbrev schod       Schr\"odinger
+	iabbrev Schod       Schr\"odinger
+	iabbrev schodinger  Schr\"odinger
+	iabbrev Schodinger  Schr\"odinger
+   iabbrev schrod      Schr\"odinger
+   iabbrev Schrod      Schr\"odinger
+   iabbrev schrodinger Schr\"odinger
+   iabbrev Schrodinger Schr\"odinger
+	iabbrev schrodiner  Schr\"odinger
+	"
+	iabbrev Sec Sec.\ \ref{
+	"
+   iabbrev sihh sinh
+   "
+   iabbrev qrt sqrt
+   "
+	iabbrev subscection subsection
+	"
+	" T
+	iabbrev texit textit

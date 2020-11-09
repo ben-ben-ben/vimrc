@@ -1,0 +1,9 @@
+" vim abbreviations
+
+	" I
+	iabbrev iabbrv  iabbrev
+	iabbrev iiabrev iabbrev
+	"
+	" N
+	iabbrev nnorepam nnoremap
+	"

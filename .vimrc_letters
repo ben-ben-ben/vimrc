@@ -1,0 +1,73 @@
+" For textfiles
+
+function! TxtFile()
+   "
+   " To hard-wrap text to desired width
+      set textwidth=81
+      normal gggqG
+   "
+   " To insert filename (includes date and sender) to top of file
+      exe "normal gg\"%Pa\<Cr>\<Cr>\<Esc>"
+   "
+   " Print
+      w !lp -o fit-to-page -o sides=one-sided
+   "
+endfunction "TxtFile
+
+nnoremap <leader>p :call TxtFile()<CR>
+
+" For LaTeX files
+
+function! TxtToTex()
+
+" to find all instances of "omega" without a preceeding backslash "\"
+" and replace them by "\omega"
+
+   %s/\\\@<!omega/\\omega/g
+   %s/\\\@<!Omega/\\Omega/g
+
+" NEED TO ADD: "nu" not in "number", "continuum"
+   %s/\\\@<!nu/\\nu/g
+   %s/\\\@<!pi/\\pi/g
+   %s/\\\@<!tau/\\tau/g
+   %s/\\\@<!hbar/\\hbar/g
+   %s/\\\@<!alpha/\\alpha/g
+   %s/\\\@<!beta/\\beta/g
+   %s/\\\@<!delta/\\delta/g
+   %s/\\\@<!Delta/\\Delta/g
+   %s/\\\@<!epsilon/\\epsilon/g
+   %s/\\\@<!kappa/\\kappa/g
+   %s/\\\@<!Kappa/\\Kappa/g
+
+" finding all instances of "ln"
+" not immediately following
+"      a "word character (\w)"
+"      o
+"      a backslash "\"
+" and placing a backslash in front
+
+   %s/\(\w\|\\\)\@<!ln/\\ln/g
+
+" find an underscore "_"
+" not followed by a curly brace "{"
+
+   s/\m_{\@!/_{/
+
+" Less/greater than, similar
+   %s/<</\\ll /g
+   %s/>>/\\gg /g
+   %s/\~/\\sim /g
+
+" Enclose selected text with "$[text]$"
+"  exe "normal a$" | exe "normal `<i$" | exe "normal f$"
+"  exe "normal `<i$" | exe "normal `>la$"
+"  exe "normal `<i$" | exe "normal `>a$"
+nnoremap <leader>v exe "normal `<i$" | exe "normal `>a$"
+
+" Go to every instance of underscore "_" without trailing curly brace ${$
+" and enclose trailing text with curly-braces "AAA_BBB" -> ""[AAA]_{BBB}"
+
+   /\m_{\@!/_{/e
+   exe "normal a{" | exe "normal Ea}"
+
+endfunction "TxtToTex

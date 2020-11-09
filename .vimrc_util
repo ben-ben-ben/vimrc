@@ -1,0 +1,88 @@
+" To source this file
+" so %
+
+
+
+
+function! CustomPrint()
+	" from .vimrc_func
+	"let temp_str = CustomPrintStr()
+	let temp_list = CustomPrintStr()
+	"echom temp_list
+	if temp_list[0]
+		" ESCAPE
+		return
+	endif
+	"
+	let str_prefix = temp_list[1]
+	let str_suffix = temp_list[2]
+	"echom temp_str
+	execute "normal 0i!" . str_prefix
+	execute "normal A"  . str_suffix
+	"watch -d -p ... lpq
+	" To get rid of prompt to press "Enter or any other key"
+	redraw
+endfunction | " CutsomPrint
+
+
+function! FileReName()
+
+	if 0
+		let t = getline( line('.') )
+		"let s = shellescape(t)
+		let s = substitute(t, '\s','\\ ',"g")
+		:s/\s\+/_/g
+		":s/\s/_/g
+		execute "normal 0i!mv " . s . " "
+	endif
+	"
+	"
+	"
+	if 1
+		" place a terminal escape character '\' before '(', ')', ',', and ' '
+		":s/[(), ]/\\&/g
+		" place a terminal escape character '\' before '&', '(', ')', ',', and ' '
+		":s/[&(), ]/\\&/g
+		" place a terminal escape character '\' before '&', '(', ')', ',', ' ', '[', and ']'
+		:s/[&(), \[\]]/\\&/g
+		" Copy the line
+		normal yyp
+		" remove all ',', '(', ')', '\'
+		":s/[,()\\]//g
+		" replace all ',', '(', ')', '\', '[', ']' by '='
+		:s/[,()\\\[\]]/=/g
+		" replace all spaces by '_'
+		":s/ /_/g
+		" replace all spaces and '&'s by '_'
+		:s/[& ]/_/g
+		normal kJI!mv 
+	endif
+	"
+endfunction | " FileReName()
+
+
+function! PdfOpen()
+	let t = getline( line('.') )
+	execute '!zathura ' . t
+endfunction | " PdfOpen
+
+
+function! CStoCSV()
+	:$s_\s\+_ _g
+	:$s_ _,_g
+endfunction | " CStoCSV
+
+
+
+
+" Bindings
+"   nnoremap <S-Ent> noremap Q !!$SHELL<CR>
+	nnoremap <leader>p :call CustomPrint()<CR>
+	nnoremap <leader>n :call FileReName()<CR>
+   "nnoremap <leader><Space> !!$SHELL<CR>
+   "nnoremap <leader><Space> !$SHELL<CR>
+	"nnoremap <leader><Space> exe "norm 0\"td$" \| exe @t
+	"nnoremap <leader><Space> exe getline('.')
+	nnoremap <leader><Space> :exe getline('.')<CR>
+	nnoremap <leader>i :.!ls \| grep pdf \| grep 
+	nnoremap <leader>z :call PdfOpen()<CR>

@@ -1,0 +1,162 @@
+" Statusline
+	"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+	" Set status line always on
+	set laststatus=2
+	" Filename and location
+	set statusline =""
+	set statusline +=%F%m%r%h%w
+	" unix file format
+	"set statusline +=\ [FORMAT=%{&ff}]
+	" type = vim
+	"set statusline +=\ [TYPE=%Y]
+	" ASCII value of char under cursur
+	"set statusline +=\ [ASCII=\%03.3b]
+	" HEX (ASCII?) value of char under cursur
+	"set statusline +=\ [HEX=\%02.2B]
+	" position in the file
+	set statusline +=\ [POS=%04l,%04v][%p%%]
+	" length of file
+	set statusline +=\ [LEN=%L]
+
+	" statusline color
+	hi statusline guifg=Black guibg=DarkRed ctermfg=0 ctermbg=88
+
+
+"" statusline coloring
+"" https://stackoverflow.com/questions/9065941/how-can-i-change-vim-status-line-color
+"function! InsertStatuslineColor(mode)
+"	if     a:mode == 'i'
+"		" insert mode
+"		"echom "insert mode"
+"	   hi statusline guifg=Black guibg=Cyan	 ctermfg=0 ctermbg=32
+"	"elseif a:mode == 'r'
+"	elseif a:mode == 'n'
+"		" normal mode
+"		"echom "normal mode"
+"		hi statusline guifg=Black guibg=Purple  ctermfg=0 ctermbg=22
+"	"elseif or(a:mode=='v', a:mode=='V')
+"	elseif a:mode=='v' || a:mode=='V'
+"		" visual mode
+"		"echom "visual mode"
+"		hi statusline guifg=Black guibg=DarkRed ctermfg=0 ctermbg=88
+"	else
+"		"echom "other mode"
+"		hi statusline guifg=White guibg=DarkGrey ctermfg=8 ctermbg=16
+"	endif
+"endfunction
+"
+"au InsertEnter * call InsertStatuslineColor(v:insertmode)
+""au InsertLeave * hi statusline guifg=White guibg=DarkGrey ctermfg=8 ctermbg=16
+""au InsertEnter,InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call InsertStatuslineColor(v:insertmode)
+""au InsertEnter,InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call InsertStatuslineColor(mode())
+""au InsertEnter,InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call InsertStatuslineColor(execute ":mode()\<cr>")
+""au InsertLeave * call InsertStatuslineColor(mode())
+"au InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call InsertStatuslineColor(mode())
+"
+"
+"" default the statusline to green when entering Vim
+""hi statusline guifg=White guibg=DarkGrey ctermfg=23 ctermbg=16
+""hi statusline guifg=Red guibg=Black ctermfg=23 ctermbg=16
+""au BufLeave,FocusLost hi statusline guifg=Red guibg=Black ctermfg=23 ctermbg=16
+"au BufLeave,FocusLost,BufNewFile,BufReadPre,BufReadPost,BufRead,BufReadCmd,BufAdd,BufCreate,BufNew,WinLeave hi statusline guifg=White guibg=DarkGrey ctermfg=8 ctermbg=16
+""au BufEnter hi statusline guifg=Red guibg=Black ctermfg=23 ctermbg=16
+""au TextYankPost conky registers
+"
+
+
+   ""highlight CursorLine term=NONE ctermbg=1  ctermfg=Black " NONE->no underline 8->dark grey, 15->white
+   ""highlight CursorLine term=NONE ctermbg=1  ctermfg=Black NONE->no underline 8->dark grey, 15->white
+   ""highlight CursorLine term=NONE ctermbg=1  ctermfg=Black
+   "highlight CursorLine   term=NONE ctermbg=DarkRed  ctermfg=Black
+	"
+	"
+	"" nocombine does not work in Debian
+   ""hi CursorColumn term=NONE ctermbg=3  ctermfg=Black " NONE->no underline 8->dark grey, 15->white, nocombine=colorscheme off
+   ""hi CursorColumn term=NONE ctermbg=1  ctermfg=Black " NONE->no underline 8->dark grey, 15->white, nocombine=colorscheme off
+   ""hi CursorColumn term=NONE ctermbg=1  ctermfg=Black
+   "highlight CursorColumn term=NONE ctermbg=DarkRed  ctermfg=Black
+
+" command to set line and column colors
+function! SetLineColor( in_color )
+	" a common string
+	let temp = "term=NONE ctermbg=" . a:in_color . " ctermfg=Black"
+	" commend to change column color
+   let temp_col = ":highlight CursorColumn " . temp
+	" commend to change line   color
+   let temp_lin = ":highlight CursorLine   " . temp
+	" change the colors
+	exe temp_col
+	exe temp_lin
+endfunction
+
+" Highlight cursor row and column
+   " From: http://stackoverflow.com/questions/4775605/vim-syntax-highlight-improve-performance
+	" :help highlight-args
+	"
+   "set nocursorcolumn
+   "set nocursorline
+   set cursorcolumn
+   set cursorline
+
+"" set line and column colors
+"" default highlighting when entering Vim
+call SetLineColor( "DarkRed" )
+"call SetLineColor( "DarkMagenta" )
+"call SetLineColor( "DarkYellow" )
+au InsertEnter * call SetLineColor( "DarkMagenta" )
+""au InsertLeave * hi statusline guifg=White guibg=DarkGrey ctermfg=8 ctermbg=16
+""au InsertEnter,InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call SetLineColor(v:insertmode)
+""au InsertEnter,InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call SetLineColor(mode())
+""au InsertEnter,InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call SetLineColor(execute ":mode()\<cr>")
+""au InsertLeave * call SetLineColor(mode())
+au InsertLeave,BufEnter,CmdwinEnter,CmdwinLeave * call SetLineColor( "DarkRed" )
+"
+"
+"" default the statusline to green when entering Vim
+""hi statusline guifg=White guibg=DarkGrey ctermfg=23 ctermbg=16
+""hi statusline guifg=Red guibg=Black ctermfg=23 ctermbg=16
+""au BufLeave,FocusLost hi statusline guifg=Red guibg=Black ctermfg=23 ctermbg=16
+"au BufLeave,FocusLost,BufNewFile,BufReadPre,BufReadPost,BufRead,BufReadCmd,BufAdd,BufCreate,BufNew,WinLeave hi statusline guifg=White guibg=DarkGrey ctermfg=8 ctermbg=16
+""au BufEnter hi statusline guifg=Red guibg=Black ctermfg=23 ctermbg=16
+""au TextYankPost conky registers
+
+
+
+	"hi Cursor       ctermbg=15 ctermfg=8  " 8->dark grey, 15->white
+   highlight Cursor       term=NONE ctermbg=DarkGrey ctermfg=White
+   "hi Cursor    term=bold cterm=bold   ctermbg=15 ctermfg=8  " 8->dark grey, 15->white
+	"hi Cursor    term=standout cterm=standout   ctermbg=15 ctermfg=8  " 8->dark grey, 15->white
+	
+
+	" highlight line numbers
+	highlight LineNr       term=bold cterm=NONE ctermfg=Yellow  ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
+	" " Magenta current number
+	highlight CursorLineNr term=bold cterm=NONE ctermfg=Magenta ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
+	
+	" visual selection
+	" Black letters on Yellow background
+	"hi Visual  ctermfg=Black ctermbg=DarkYellow guifg=Black guibg=DarkYellow gui=none
+	highlight Visual  ctermfg=Black ctermbg=DarkYellow guifg=Black guibg=DarkYellow gui=NONE
+
+
+" tab line background tabs
+highlight TabLine     cterm=NONE ctermfg=DarkRed ctermbg=Black gui=NONE guibg=Black guifg=DarkRed
+		
+" tab line without tabs
+highlight TabLineFill cterm=NONE gui=NONE
+		
+" tab line active tab
+highlight TabLineSel  cterm=underline gui=underline ctermfg=DarkRed ctermbg=Black
+
+
+
+" highlight spaces, tabs
+"⎵,⍿,>-,--,⏎,├─,·,»,«,×,┊,↓,┊,●,…,…,·
+set list
+"set listchars=tab:>-,trail:.,eol:¬,extends:>,precedes:<,space:⍿
+set listchars=tab:¬¬,trail:.,eol:⏎,extends:»,precedes:«,space:·,nbsp:⍿
+
+" colors for non-text and white-space characters
+highlight NonText     ctermfg=DarkGray gui=bold guifg=DarkGray
+highlight Whitespace  ctermfg=DarkGray gui=bold guifg=DarkGray
+"highlight SpecialKey guifg=#4a4a59

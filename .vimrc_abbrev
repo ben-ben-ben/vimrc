@@ -1,0 +1,875 @@
+" abbreviations -- common mistakes
+   "
+   " A
+	iabbrev abotu about
+	"
+   iabbrev absorved absorbed
+   "
+	iabbrev acceleation  acceleration
+	iabbrev acceleratoin acceleration
+	iabbrev accelration  acceleration
+   iabbrev accleration  acceleration
+   iabbrev acclereation acceleration
+   "
+   iabbrev acceess access
+	"
+	iabbrev accoeding according
+	iabbrev accordin  according
+	iabbrev accordint according
+	"
+	iabbrev accurete accurate
+	"
+	iabbrev actio action
+	"
+	iabbrev addressiong addressing
+   "
+   iabbrev aling align
+   "
+   iabbrev akoha  alpha
+	iabbrev alpaa  alpha
+   iabbrev alpga  alpha
+	iabbrev alpgha alpha
+	iabbrev alphe  alpha
+	iabbrev elpta  alpha
+   "
+   iabbrev alternatice alternative
+   "
+   iabbrev adn and
+   iabbrev amd and
+   iabbrev abd and
+   "
+	iabbrev anni   annihilation
+	iabbrev annid  annihilated
+	iabbrev anning annihilating
+	"
+   iabbrev annihilatoin annihilation
+   iabbrev annihikation annihilation
+	"
+	iabbrev asnewr answer
+	iabbrev asnwer answer
+	"
+	iabbrev Appriximate Approcimate
+	iabbrev Appriximating Approcimating
+	iabbrev appriximate approximate
+	iabbrev appriximating approcimating
+	iabbrev appriximation approcimation
+	iabbrev approcimate approximate
+	iabbrev approcimating approximating
+	iabbrev approcimation approximation
+	iabbrev approimate  approximate
+	iabbrev approimation approximation
+	"
+	iabbrev approximatoin approximation
+	"
+	iabbrev arbitary arbitrary
+   "
+   iabbrev artument argument
+   iabbrev arument  argument
+	"
+	iabbrev assymptote asymptote
+	"
+	iabbrev atmomic atomic
+	iabbrev atmos  atoms
+	iabbrev atomes atoms
+	"
+	iabbrev attahced attached
+	iabbrev Attahced Attached
+	"
+	iabbrev avreage average
+   "
+   " B
+	iabbrev beacuse because
+	iabbrev becaues because
+	iabbrev brcause because
+   "
+   iabbrev becosem becomes
+   iabbrev becoesm becomes
+	iabbrev vecome become
+	iabbrev vecomes becomes
+	"
+	iabbrev begein begin
+	iabbrev begeins begins
+	"
+	iabbrev benefir benefit
+	"
+   iabbrev bogoliubov Bogoliubov
+   iabbrev BOGO       Bogoliubov
+   "
+	" C
+	iabbrev caes case
+	iabbrev casr case
+	"
+	iabbrev calclate calculate
+	"
+	iabbrev callsed called
+	"
+	iabbrev caonical canonical
+	"
+	iabbrev challange challenge
+	iabbrev challanges challenges
+	iabbrev challanging challenging
+	"
+	iabbrev hcange change
+	"
+	iabbrev cpmlpete complete
+	"
+	iabbrev coincidance  coincidence
+	iabbrev cooincidance coincidence
+	iabbrev cooincidence coincidence
+	"
+	iabbrev componentes components
+	"
+	iabbrev connectoin connection
+	"
+	iabbrev constider consider
+	iabbrev constidering considering
+	"
+	iabbrev consistant consistent
+   "
+   iabbrev constatnt constant
+	iabbrev contatnt  constant
+	"
+	iabbrev contrivute contribute
+	iabbrev contrivution contribution
+	iabbrev contrivutions contributions
+	"
+	iabbrev coordiante coordinate
+   "
+	iabbrev correspondance correspondence
+	"
+	iabbrev coudl could
+   iabbrev oculd could
+	"
+	iabbrev creatoin creation
+	"
+   " D
+	iabbrev adgger dagger
+   iabbrev dager  dagger
+   iabbrev dagge  dagger
+	"
+	iabbrev dera dear
+	iabbrev Dera Dear
+	"
+	iabbrev definitoin definition
+	"
+	iabbrev delat delta
+	iabbrev Delat Delta
+	iabbrev dleta delta
+	iabbrev Dleta Delta
+   "
+	iabbrev depdendance dependence
+	iabbrev depdendant dependent
+	iabbrev depdens depends
+	iabbrev depedndene  dependence
+	iabbrev depedndent dependenct
+   iabbrev depednence  dependence
+   iabbrev depednent  dependent
+	iabbrev depedns depends
+	iabbrev dependance  depdendence
+	iabbrev dependant  depdendent
+	"
+	iabbrev derivtive derivative
+	"
+	iabbrev desctive describe
+	iabbrev desctives describes
+	iabbrev desctiving describing
+	iabbrev desvribe describe
+	iabbrev desvribes describes
+	iabbrev desvribing describing
+	"
+	iabbrev detedcted detected
+	"
+	iabbrev deector  detector
+	iabbrev detectir detector
+	"
+	iabbrev diagnoal diagonal
+	"
+	iabbrev differece  difference
+	iabbrev differance difference
+	iabbrev dofference difference
+	"
+	iabbrev differebt  different
+	iabbrev figfferent different
+   "
+	iabbrev dissapears disappears
+	"
+	iabbrev desciss discuss
+	iabbrev descuss discuss
+	iabbrev disciss discuss
+	"
+	iabbrev distibfuishing distinguishing
+	iabbrev distingiushing distinguishing
+   "
+	iabbrev distiobution  distribution
+	iabbrev distiobutions  distributions
+   iabbrev distributino  distribution
+   iabbrev distributinos  distributions
+	iabbrev fistribution  distribution
+	iabbrev fistributions  distributions
+	iabbrev distributnio  distribution
+	iabbrev distributnios  distributions
+	iabbrev disttribution distribution
+	iabbrev disttributions distributions
+	"
+   " E
+	iabbrev eigenfuncionts eigenfunctions
+	iabbrev eigenfucntions eigenfunctions
+	"
+	iabbrev eigenvales eigenvalues
+	"
+   iabbrev elelments elements
+   "
+   iabbrev EMc electromagnetic
+   iabbrev EMm electromagnetism
+	"
+	iabbrev emited emitted
+   "
+	iabbrev enerfy energy
+	"
+	iabbrev entranglement entanglement
+	"
+	iabbrev epsion  epsilon
+	iabbrev spsilon epsilon
+	"
+   iabbrev rqual equal
+	"
+   iabbrev eqaution  equation
+   iabbrev eqn       equation
+   iabbrev Eqn       Equation
+   iabbrev equatoin  equation
+	iabbrev equaytion equation
+   "
+	iabbrev evertwhere everywhere
+	"
+	iabbrev excitattions excitation
+	"
+	iabbrev execure execute
+	"
+	iabbrev expanstion expansion
+	"
+	iabbrev expectaiton expectation
+	"
+	iabbrev eponential exponential
+	iabbrev eponentials exponentials
+	"
+   " F
+   iabbrev feild field
+	iabbrev firld field
+	"
+	iabbrev finak final
+	"
+	iabbrev findint finding
+	"
+	iabbrev frist first
+   "
+   iabbrev follwoing following
+   iabbrev follwo follow
+	iabbrev fpllowing following
+	iabbrev fpllow follow
+	"
+	iabbrev fot for
+   "
+   iabbrev fourier Fourier
+	"
+	iabbrev fraem frame
+	"
+	iabbrev frams frames
+	"
+	iabbrev freq  frequency
+	iabbrev freqs frequencies
+	iabbrev freqt frequent
+	"
+	iabbrev freuency   frequency
+	iabbrev freuqency  frequency
+	iabbrev frequecny  frequency
+	iabbrev frequecnt  frequency
+	iabbrev frequencty frequency
+	iabbrev frequect   frequency
+   "
+	iabbrev dunction  function
+	iabbrev dunctions  functions
+   iabbrev fucntion  function
+   iabbrev fucntions  functions
+   iabbrev funciton  function
+   iabbrev funcitons  functions
+	iabbrev functio   function
+	iabbrev functios   functions
+	iabbrev functoin  function
+	iabbrev functoins  functions
+	iabbrev fuunction function
+	iabbrev fuunctions functions
+	"
+	iabbrev funfamental fundamental
+	iabbrev funsamental fundamental
+	"
+	iabbrev furthernore furthermore
+	iabbrev furthormore furthermore
+	"
+   " G
+	iabbrev gama gamma
+	"
+	iabbrev gague gauge
+	"
+	iabbrev genreal  general
+	iabbrev gerneral general
+	"
+	iabbrev gois goes
+	"
+	iabbrev gresat great
+	"
+   " H
+	iabbrev hamil Hamiltonian
+	iabbrev Hamil Hamiltonian
+	"
+	iabbrev Hamiltionan  Hamiltonian
+	iabbrev Hamiltionina Hamiltonian
+	iabbrev Hamioltonian Hamiltonian
+	"
+   iabbrev ahve   have
+   iabbrev habe   have
+	"
+   iabbrev habing having
+   "
+   iabbrev hta  hat
+   iabbrev jat  hat
+   iabbrev hjat hat
+	"
+	iabbrev Hermiaitn Hermitian
+	"
+   iabbrev hoewver  however
+   iabbrev Hoewver  However
+	iabbrev howeber  however
+	iabbrev Howeber  However
+	iabbrev howervre however
+	iabbrev Howervre However
+	iabbrev howevre  however
+	iabbrev Howevre  However
+   "
+   " I
+	iabbrev indentity identity
+	"
+	iabbrev impoertnat important
+	iabbrev imporetant important
+	iabbrev importent  important
+	"
+	iabbrev iin in
+	"
+	iabbrev independant independent
+	iabbrev independantly independently
+	"
+	iabbrev individial individual
+	iabbrev infividial individual
+	"
+	iabbrev infiinte infinite
+	"
+	iabbrev infomratio  information
+	iabbrev infomration information
+	"
+   iabbrev inititial initial
+	iabbrev intial    initial
+   "
+   iabbrev insitde inside
+	"
+	iabbrev innstance instance
+   "
+   iabbrev intraction  interaction
+   iabbrev interactoin interaction
+	iabbrev iteraction  interaction
+   "
+	iabbrev interast  interest
+	iabbrev interasted  interested
+	iabbrev interastingly  interestingly
+	iabbrev Interastingly  Interestingly
+	iabbrev intereset interest
+	iabbrev intereseted interested
+	iabbrev interesetingly interestingly
+	iabbrev Interesetingly Interestingly
+	iabbrev interst   interest
+	iabbrev intersted   interested
+	iabbrev interstingly   interestingly
+	iabbrev Interstingly   Interestingly
+	"
+	iabbrev interferece interference
+	"
+   iabbrev inerpertation interpertation
+   iabbrev inerperttion  interpertation
+   "
+	iabbrev itep item
+	"
+	" J
+	iabbrev Jonahtan Jonathan
+	" K
+	iabbrev knwo know
+   iabbrev knwon known
+	iabbrev konw know
+   iabbrev konwn known
+   "
+	iabbrev kwt ket
+	"
+   " L
+	iabbrev landa  lambda
+	iabbrev lamnda lambda
+	iabbrev lmda   lambda
+	"
+	iabbrev lagrangian Lagrangian
+	iabbrev lagrangina Lagrangian
+	iabbrev Lagrangina Lagrangian
+	"
+   iabbrev legnth length
+	"
+	iabbrev likelyhood likelihood
+	"
+	iabbrev Lorenrz Lorentz
+   "
+   " M
+	iabbrev magnatism magnetism
+	iabbrev Magnatism Magnetism
+	"
+	iabbrev mechcnics mechanics
+	"
+   iabbrev mentines  mentions
+   iabbrev mentiones mentions
+   "
+   iabbrev Minkoski   Minkowski
+   iabbrev Minkosky   Minkowski
+   iabbrev Minkowsky  Minkowski
+   iabbrev mikowski   Minkowski
+   iabbrev Mikowski   Minkowski
+   iabbrev minkowski  Minkowski
+	iabbrev Minkwoski  Minkowski
+	iabbrev Minwkowksi Minkowski
+	iabbrev Mnkwosi    Minkowski
+	"
+	iabbrev mirrow mirror
+	"
+	iabbrev omde mode
+	iabbrev omdes modes
+	iabbrev moes  modes
+	"
+   iabbrev moentum  momentum
+	iabbrev mometnum momentum
+	"
+	iabbrev movinf moving
+	"
+	iabbrev nust must
+   "
+   " N
+	iabbrev negaive  negative
+	iabbrev negagive negative
+	iabbrev negatiev negative
+	"
+	iabbrev neveer never
+	"
+   iabbrev niormal normal
+   iabbrev notmal  normal
+	iabbrev noraml  normal
+	iabbrev noemal  normal
+	"
+	iabbrev normailzation normalization
+	iabbrev notmalization normalization
+	"
+	iabbrev norice notice
+	iabbrev Norice Notice
+   "
+   " O
+	iabbrev ovserver observer
+	"
+	iabbrev oemga  omega
+	iabbrev Oemga  Omega
+	iabbrev omeag  omega
+	iabbrev Omeag  Omega
+   iabbrev omefa  omega
+   iabbrev Omefa  Omega
+   iabbrev omege  omega
+   iabbrev Omege  Omega
+   iabbrev omemga omega
+   iabbrev Omemga Omega
+	iabbrev ometga omega
+	iabbrev Ometga Omega
+	iabbrev omwga  omega
+	iabbrev Omwga  Omega
+	iabbrev pmega  omega
+	iabbrev Pmega  Omega
+	iabbrev pmege  omega
+	iabbrev Pmege  Omega
+	iabbrev pomega omega
+	iabbrev pOmega Omega
+   "
+   iabbrev olny only
+   iabbrev onyl only
+   iabbrev onlt only
+   "
+	iabbrev oerato    operator
+	iabbrev oeratos    operators
+	iabbrev oopeartor operator
+	iabbrev oopeartors operators
+	iabbrev ooperator operator
+	iabbrev ooperators operators
+	iabbrev operatr   operator
+	iabbrev operatrs   operators
+   iabbrev opearator operator
+   iabbrev opearators operators
+   iabbrev opearot   operator
+   iabbrev opearots   operators
+   iabbrev opearotr  operator
+   iabbrev opearotrs  operators
+   iabbrev opeartor  operator
+   iabbrev opeartors  operators
+   iabbrev opeorator operator
+   iabbrev opeorators operators
+	iabbrev operaor   operator
+	iabbrev operaors   operators
+	iabbrev operaot   operator
+	iabbrev operaots   operators
+   iabbrev operaotr  operator
+   iabbrev operaotrs  operators
+   iabbrev operaort  operator
+   iabbrev operaorts  operators
+	iabbrev operarto  operator
+	iabbrev operartos  operators
+	iabbrev operatoir operator
+	iabbrev operatoirs operators
+   iabbrev operato   operator
+   iabbrev operatos   operators
+	iabbrev operatoe  operator
+	iabbrev operatoes  operators
+	iabbrev opeartoer operator
+	iabbrev opeartoers operators
+	iabbrev operatort operator
+	iabbrev operatorts operators
+   iabbrev operatot  operator
+   iabbrev operatots  operators
+	iabbrev operatotr operator
+	iabbrev operatotrs operators
+	iabbrev operatpr  operator
+	iabbrev operatprs  operators
+   iabbrev operatro  operator
+   iabbrev operatros  operators
+	iabbrev operatror operator
+	iabbrev operatrors operators
+	iabbrev operarot  operator
+	iabbrev operarots  operators
+	iabbrev operqator operator
+	iabbrev operqators operators
+	iabbrev opertaors  operators
+	iabbrev opertaor  operator
+   iabbrev opertor   operator
+   iabbrev opertors   operators
+	iabbrev opreator  operator
+	iabbrev opreators  operators
+	iabbrev poerator  operator
+	iabbrev poerators  operators
+	"
+	iabbrev optcs optics
+	"
+	iabbrev orhogonality   orthogonality
+	iabbrev orthogonalirt  orthogonality
+	iabbrev orthogoniality orthogonality
+	"
+	iabbrev oberwhelmingly overwhelmingly
+   "
+   " P
+	iabbrev paramaetr parameter
+	"
+	iabbrev patrial partial
+	iabbrev ptarial partial
+	"
+   iabbrev paricular  particular
+	iabbrev particulat particular
+   "
+   iabbrev phaes phase
+	iabbrev phsae phase
+   iabbrev phse  phase
+	"
+	iabbrev phton photon
+	"
+	iabbrev piicture picture
+	"
+	iabbrev pji phi
+	"
+	iabbrev positoin position
+   "
+	iabbrev predictoin prediction
+	iabbrev predictoins predictions
+	"
+   iabbrev prepatation preparation
+	"
+	iabbrev probabliity probability
+	iabbrev probiblity  probability
+	"
+	iabbrev probabilitoes probabilities
+	"
+	iabbrev pblem  problem
+	iabbrev probem problem
+	"
+	iabbrev proceedure procedure
+	"
+	iabbrev Profesor Professor
+	iabbrev Profssor Professor
+	"
+	iabbrev propagare propagate
+	"
+	iabbrev publicatoin publication
+	iabbrev publicatino publication
+	"
+	iabbrev purelt purely
+   "
+   " Q
+	"
+	iabbrev qm  quantum
+	iabbrev QM  quantum
+	iabbrev qms quantum mechanics
+	iabbrev QMs quantum mechanics
+	iabbrev QMS quantum mechanics
+	iabbrev qml quantum mechanical
+	iabbrev QMl quantum mechanical
+	iabbrev QML quantum mechanical
+	"
+   iabbrev quatnum quantum
+	iabbrev qunatum quantum
+	"
+	iabbrev questoin question
+   "
+   " R
+	iabbrev radiaiton  radiation
+	iabbrev Radiaiton  Radiation
+	iabbrev radiatoin  radiation
+	iabbrev Radiatoin  Radiation
+	iabbrev radiaitono radiation
+	iabbrev Radiaitono Radiation
+   iabbrev ratiation  radiation
+   iabbrev Ratiation  Radiation
+   iabbrev ratiatoin  radiation
+   iabbrev Ratiatoin  Radiation
+	"
+	iabbrev raech reach
+	iabbrev raeches reaches
+	"
+	iabbrev Revently Recently
+	"
+	iabbrev relatifity relativity
+	"
+	iabbrev renain remain
+	"
+	iabbrev requiered required
+   "
+	iabbrev researach research
+	iabbrev researachers researchers
+   iabbrev reserach  research
+   iabbrev reserachers  researchers
+	"
+   iabbrev respecr  respect
+   iabbrev respecrively  respectively
+	iabbrev respoect respect
+	iabbrev respoectively respectively
+	"
+	iabbrev reslt result
+	iabbrev reslts results
+	"
+	iabbrev retrn return
+   "
+	iabbrev rihgt right
+	iabbrev rignt right
+   iabbrev rigth right
+	"
+   iabbrev Rindelr Rindler
+   iabbrev Rinder  Rindler
+	iabbrev Rinlder Rindler
+   "
+	iabbrev rood root
+	"
+   " S
+	iabbrev samlpe sample
+	"
+	iabbrev satisfyinh satisfying
+	iabbrev satsifying satisfying
+	iabbrev satsifyinh satisfying
+	"
+	iabbrev scalae scalar
+	"
+	iabbrev Shchleich Schleich
+	"
+	iabbrev schwarz        Schwarzschild
+	iabbrev Schwarz        Schwarzschild
+	iabbrev schwarzshcild  Schwarzschild
+	iabbrev Schwarzshcild  Schwarzschild
+	iabbrev shwartzschield Schwarzschild
+	iabbrev Shwartzschield Schwarzschild
+	iabbrev shwartzshield  Schwarzschild
+	iabbrev Shwartzshield  Schwarzschild
+	iabbrev shwarzschield  Schwarzschild
+	iabbrev Shwarzschield  Schwarzschild
+	iabbrev shwarzshield   Schwarzschild
+	iabbrev Shwarzshield   Schwarzschild
+	iabbrev schwarzschield Schwarzschild
+	iabbrev Schwarzschield Schwarzschild
+	iabbrev schwarzshield  Schwarzschild
+	iabbrev Schwarzshield  Schwarzschild
+	iabbrev shwarz         Schwarzschild
+	iabbrev Shwarz         Schwarzschild
+	"
+	iabbrev secomd second
+	"
+	iabbrev scection section
+   " 
+	iabbrev seperate separate
+	iabbrev seperated separated
+	"
+   iabbrev shuold should
+	"
+	iabbrev significatn  significant
+	iabbrev significatng significant
+   "
+	iabbrev similalrly similarly
+	iabbrev Similalrly Similarly
+	iabbrev similarlt  similarly
+	iabbrev Similarlt  Similarly
+	"
+	iabbrev simplle simple
+	"
+	iabbrev sicne since
+	"
+	iabbrev saught sought
+	"
+	iabbrev specicifally specifically
+	iabbrev Specicifally Specifically
+	"
+	iabbrev spectrul spectrum
+	"
+	iabbrev squate square
+	"
+	iabbrev statioary stationary
+	iabbrev stationay stationary
+	iabbrev stationry stationary
+   "
+   iabbrev studebts students
+	"
+	iabbrev sumerize  summarize
+	iabbrev summerize summarize
+	"
+	iabbrev suppresion suppression
+	"
+	iabbrev surprizing surprising
+	iabbrev surptising surprising
+	"
+	iabbrev supperposition  superposition
+	"
+   " T
+	iabbrev rao tau
+	iabbrev rau tau
+	iabbrev tao tau
+	%
+	iabbrev tought taught
+   "
+   iabbrev temrs terms
+   "
+   iabbrev htat  that
+	iabbrev htata that
+	iabbrev taht  that
+   iabbrev thta  that
+	iabbrev tjat  that
+	"
+   iabbrev teh  the
+   iabbrev hte  the
+   iabbrev thje the
+   iabbrev tje  the
+   iabbrev tjhe the
+   "
+   iabbrev htem them
+   iabbrev hten then
+   "
+	iabbrev thry   theory
+   iabbrev hteory theory
+   "
+	iabbrev hterefore  therefore
+	iabbrev tehrefore  therefore
+   iabbrev thereofre  therefore
+   iabbrev trherefore therefore
+	"
+	iabbrev thetra theta
+	iabbrev thtea  theta
+   "
+	iabbrev htis this
+	"
+	iabbrev htough though
+	"
+	iabbrev rhgouth through
+	"
+	iabbrev throught throughout
+	iabbrev Throught Throughout
+	"
+   iabbrev yimr time
+   iabbrev yime time
+   iabbrev rime time
+   iabbrev rimw time
+	"
+	iabbrev tp to
+   "
+   iabbrev totla total
+	"
+	iabbrev trjectory trajectory
+   "
+   iabbrev transfrom transform
+   iabbrev transfromation transformation
+   iabbrev transfroming transforming
+   "
+   iabbrev ransition transition
+	"
+	iabbrev transmittion transmission
+   "
+   " U
+	iabbrev unedr under
+	"
+   iabbrev unkown unknown
+   "
+   iabbrev Unrh  Unruh
+   iabbrev unrh  Unruh
+   iabbrev unruh Unruh
+   "
+   iabbrev uesd used
+	"
+	iabbrev Usign Using
+	iabbrev usign using
+	"
+	iabbrev unitrary unitary
+   "
+   " V
+   iabbrev cavuum vacuum
+   iabbrev vaccum vacuum
+   "
+	iabbrev versoin version
+	iabbrev vresion version
+	"
+	" W
+	iabbrev whta what
+	"
+	iabbrev weher  where
+	iabbrev whwere where
+	iabbrev wjere  where
+   "
+   iabbrev whethre whether
+	"
+   iabbrev whch  which
+   iabbrev whic  which
+   iabbrev whicj which
+	iabbrev wich  which
+	"
+	iabbrev Wifner  Wigner
+	iabbrev Wighner Wigner
+	iabbrev wigner  Wigner
+	iabbrev Winer   Wigner
+	iabbrev Winger  Wigner
+	"
+	iabbrev iwht with
+	iabbrev wiht with
+	"
+	iabbrev wordline  worldline
+	iabbrev worldilne worldline
+   "
+	" Y
+	iabbrev tield yield
+	iabbrev yiled yield
+
+
+" Shortcuts
+   iabbrev WRT with respect to

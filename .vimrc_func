@@ -1,0 +1,468 @@
+" Useful functions
+
+" Function to return the battery status
+function! Battery()
+   "!more /sys/class/power_supply/BAT0/capacity
+	let t = system("more /sys/class/power_supply/BAT0/capacity")
+	return t
+endfunction "Battery
+
+
+" Prompts for chars
+" stops on receiving <Ent>
+function! Getstr(in_str)
+   let bool_temp = 1 | " True
+   "
+	let str_message = a:in_str
+	if str_message != ""
+		let str_message .= "\n"
+	endif
+	"
+   let str_temp = ""
+   "
+   while bool_temp
+      redraw
+      "echo str_temp
+      echo str_message . str_temp
+		"
+      let chr_temp_ascii = getchar()
+      "
+      if chr_temp_ascii == 13 " 13==<Ent>
+         " finish
+         let bool_temp = 0 | " False
+			"return [0, str_temp]
+      "
+      elseif chr_temp_ascii == "\<Backspace>"
+         " Remove last char (if string not empty)
+         if str_temp != ""
+            let str_temp = str_temp[:-2]
+         endif
+      "
+		elseif chr_temp_ascii == 27 | " 27==<Esc>
+			"let str_temp = "ESCAPE"
+			"let bool_temp = 0 | " False
+			return [1, "ESCAPE"]
+		"
+      else
+         " append char to string
+         let chr_temp = nr2char(chr_temp_ascii)
+         "echom "your char is " . chr_temp
+         let str_temp = str_temp . chr_temp
+      "
+      endif
+      "echom "loop tail"
+   endwhile
+   "echom "loop end"
+   "echom "str_temp is " . str_temp
+   "
+   return [0, str_temp]
+   "
+endfunction "GetStr
+
+
+
+
+" when echo-ing messages, disable the "-- More -- SPACE/d/j: screen/page/line down, b/u/k: up, q: quit "
+	set nomore
+
+"let test_list = [ ["c", "To chooese a color", [ "Red", "Green", "Blue" ], "Red" ], [ "s", "shape", [ "Circle", "Diamond", "Trapeze" ], "Diamond" ]  ]
+
+"let test_dict = { "000":"my 000 message", "c": [ "To chooese a color", [ "Red", "Green", "Blue" ], "Red" ],  "s": [ "shape", [ "Circle", "Diamond", "Trapeze" ], "Diamond" ]  }
+
+let test_dict =
+   \{
+	\ "type":"menu",
+   \ "text":"my message",
+   \ "c":
+		\ {
+			\ "type":"choice",
+			\ "text":"Chooese a color",
+			\ "options":[ "Red", "Green", "Blue" ],
+			\ "default":"Red"
+		\ },
+   \ "s":
+		\ {
+			\ "type":"choice",
+			\ "text":"Chooese a shape",
+			\ "options":[ "Circle", "Diamond", "Trapeze" ],
+			\ "default":"Diamond"
+		\ },
+   \ "m":
+      \ {
+			\ "type":"menu",
+			\ "text":"Specify a and b",
+			\ "a":
+				\ {
+					\ "type":"choice"
+					\ "text":"aaa",
+					\ "options":["a1", "a2", "a3"],
+					\ "default":"a1"
+				\ },
+			\ "b":
+				\ {
+					\ "type":"choice"
+					\ "text":"bbb",
+					\ "options":["b1", "b2", "b3"],
+					\ "default":"b1"
+				\ },
+      \ },
+	\ "b":
+		\ {
+			"type":"entry",
+			"text":"Enter your choice",
+			"default":"ALL"
+		\ }
+   \}
+
+
+
+function! MenuStrDict(in_dict)
+	"
+	" Creates a menu prompt string from a dictionary
+	"
+	let dict_out = a:in_dict
+	"let dict_list = a:in_dict
+	"let dict_out = dict_list[1]
+	"
+	"
+	if dict_out["type"] == "menu"
+	"
+		let str_temp = dict_out["text"] . "\n"
+		"
+		for i_key in keys(dict_out)
+			"
+			if or(i_key=="text", i_key=="type")
+				" These are special message keys
+				continue
+			endif
+			"
+			let str_temp .= "(" . i_key . ") "
+			let dict_key = dict_out[i_key]
+			"
+			let str_temp .= dict_key["text"]
+			"
+		endfor
+	"
+	elseif dict_out["type"] == "choice"
+	"
+		let str_temp = dict_out["text"] . "\n"
+	"
+	elseif dict_out["type"] == "entry"
+	"
+		let str_temp = dict_out["text"] . "\n"
+	"
+	elseif dict_out["type"] == "command"
+	"
+		let str_temp = dict_out["text"] . "\n"
+	"
+	else
+	endif
+   "
+   "
+   let str_temp .= "Press <Enter> to accept." . "\n" . "Press <Esc> to cancel."
+	"
+	return str_temp
+	"
+endfunction | " MenuStrDict
+
+
+function! MenuStrList(in_list)
+	"
+	" Creates a menu prompr string from a list
+	"
+	let list_temp = a:in_list
+	"
+	let str_temp = list_temp[0] . "\n"
+	"
+	let int_list = 0
+	for i_temp in list_temp[1]
+		"
+		let int_list += 1
+		let str_temp .= "(" . int_list . ") " . i_temp . "\n"
+		"
+	endfor | " i_temp
+	"
+	let str_temp .= "Current: " . list_temp[-1] . "\n"
+	"
+   let str_temp .= "Press <Enter> to accept." . "\n" . "Press <Esc> to cancel."
+	"
+	return str_temp
+	"
+endfunction | " MenuStrList
+
+
+function! MenuList(in_list)
+   " Displays a menu,
+	" listens to a prompt,
+	" and returns [bool, list]
+   " 
+   " Returns a list of choices
+   " [ prompt_char, choice ]
+   " specifying the option
+   " and the selected choice
+   " OR
+   " Returns the string "ESCAPE"
+   "
+   "
+   let list_out = a:in_list
+   "
+	"let str_temp = MenuStrList(list_out)
+   "
+	" Prompt for arbitrary string input
+	" if no choices are given
+	if list_out[1] == []
+		let str_temp = list_out[0] . "\n" . "Current: " . list_out[2]
+		"echo str_temp
+		"let temp_response = Getstr("")
+		let temp_response = Getstr(str_temp)
+		"
+		" If "ESCAPE"
+		"if temp_response == "ESCAPE"
+		if temp_response[0]
+			" Escape returns [1, data ]
+			return temp_response
+		else
+			"let list_out[2] = temp_response
+			let list_out[2] = temp_response[1]
+			"return list_out
+			return [0, list_out]
+		endif
+		"
+	endif
+	" Do not need 'else', because always return something,
+	" so this is *effectively* an 'else'
+	"
+   "let bool_listen = 1
+   "while bool_listen
+      "
+      redraw
+      "echo str_temp
+      echo MenuStrList(list_out)
+		"
+      " Get user input
+      "let str_temp = Getstr("")
+      let char_temp = getchar()
+      "
+      if       char_temp == 13 | " 13==<Ent>
+         " Submit
+         "let bool_listen = 0
+         "return list_out
+         return [0, list_out]
+      elseif   char_temp == 27 | " 27==<Esc>
+         " Escape 
+         "let bool_listen = 0
+         "return "ESCAPE"
+         return [1, "ESCAPE"]
+      else
+         " Modify a dict item
+         let char_temp = nr2char(char_temp)
+			"echo "selected: " . char_temp . ", which is " . list_out[1][char_temp-1]
+         let list_out[-1]  = list_out[1][char_temp-1]
+		 	"let bool_listen = 0
+			"return list_out
+			return [0, list_out]
+         "
+		endif | " char_temp
+      "
+   "endwhile
+   "
+endfunction | " MenuList
+
+
+
+function! Menu(in_dict)
+   " Displays a menu
+   " with an optional prompt message (the "000" dict element),
+   " with options obtained from a list
+   " [ prompt_char, title, [list of options], current_choice ]
+   " 
+   " Returns a dictionary of choices
+   " [ prompt_char, choice ]
+   " specifying the option
+   " and the selected choice
+   " OR
+   " Returns the escape boolean 1 and string "ESCAPE": [1, "ESCAPE"]
+   "
+   " TODO
+   " 1. add whitespace to make titles same length
+   "
+   " INFO:
+   " types:
+   " type(Int)|  = 0
+   " type(Str)|  = 1
+   " type(List)| = 3
+   " type(Dict)| = 4
+   "
+	"let temp = a:in_dict
+	"if temp[0]
+	"	" If "ESCAPE"
+	"	return temp
+	"endif
+	"
+   "let dict_out = temp[1]
+   let dict_out = a:in_dict
+	"
+	"let str_temp = MenuStrDict(dict_out)
+	"
+   let bool_listen = 1
+   while bool_listen
+      "
+      redraw
+      "echo str_temp
+      echo MenuStrDict(dict_out)
+      " get char
+      "let str_temp = Getstr("")
+      let char_temp = getchar()
+      "
+      if       char_temp == 13 | " 13==<Ent>
+         " Submit
+         let bool_listen = 0
+         "return dict_out
+         return [0, dict_out]
+      elseif   char_temp == 27 | " 27==<Esc>
+         " Escape 
+         let bool_listen = 0
+         "return "ESCAPE"
+         return [1, "ESCAPE"]
+      else
+         " Modify a dict item
+         let char_temp = nr2char(char_temp)
+         let sub_dict  = dict_out[char_temp]
+         "
+         " If it is another dictionary, call Menu again with sub_dict
+         " If it is a list, then the user must make a selection
+         "
+         if type(sub_dict) == 4
+            " Dictionary   (type == 4)
+            let temp_result = Menu(sub_dict)
+				"
+				"let dict_out[char_temp] = temp_result
+				"if !temp_result[0]
+				"	let dict_out[char_temp] = temp_result[1]
+				"endif
+				"
+         else
+            " List         (type == 3)
+            let temp_result = MenuList(sub_dict)
+            "let dict_out[char_temp] = temp_result
+				"if !temp_result[0]
+				"	let dict_out[char_temp] = temp_result[1]
+				"endif
+            "
+         endif | " type(sub_dict)
+         "
+         "if type(temp_result) == 1
+			if temp_result[0]
+         "if temp_result == "ESCAPE"
+            " Escape
+            return temp_result
+         else
+			"	let bool_listen = 0
+			"	return dict_out
+				let dict_out[char_temp] = temp_result[1]
+         endif
+         "
+      endif | " char_temp
+      "
+   endwhile
+   "
+endfunction | " Menu
+
+
+let dict_print = 
+	\{
+		\"000": "Cutomize this print job"
+		\,
+		\"d": ["Destination", ["4fl", "5fl", "chabad2"], "chabad2"]
+		\,
+		\"c": ["Number of copies", [], "1"]
+		\,
+		\"s": ["Sides", ["one-sided", "two-sided-long-edge", "two-sided-short-edge" ], "two-sided-long-edge"]
+		\,
+		\"p": ["Page range", [], "All"]
+		\,
+		\"t": ["Print type", ["Normal", "Booklet", "Poster", "Slides"], "Normal" ]
+	\}
+
+
+"call Menu(test_list, test_message)
+"silent call Menu(test_dict)
+"silent call Menu(dict_print)
+"!lp -o fit-to-page -d 5fl -n 5 -o page-ranges=1-4 -o sides=one-sided 
+         "let cmd_str = "!python2 ~/help/booklet-04.py -p - -n 1 -f unruh-1976.pdf
+         ""lp -o fit-to-page -o number-up=4 -o number-up-layout="btlr" -o page-border="single-thick" -o sides=two-sided-short-edge filename
+         "let cmd_str = o_str_main[0] . " -o number-up=4 -o number-up-layout=\"btlr\" -o page-border=\"single-thick\" " . "-o sides=" . o_str_sides[1] . " " . fpdf
+
+
+function! CustomPrintStr()
+	"
+	"let dict_out = Menu(g:dict_print)
+	let out_list = Menu(g:dict_print)
+	let bool_escape = out_list[0]
+	"let bool_escape = Menu([0, g:dict_print])[0]
+	"
+	if bool_escape
+	"if type(dict_out) == 1 | " "ESCAPE"
+		"echom "ESCAPE CustomPrintStr"
+		"return
+		return out_list
+	endif
+	"echom "no ESCAPE CustomPrintStr"
+	"
+	let dict_out = out_list[1]
+	"
+	let print_type   = dict_out["t"][2]
+	let print_sides  = dict_out["s"][2]
+	let print_num    = dict_out["c"][2]
+	let print_dest   = dict_out["d"][2]
+	let print_range  = dict_out["p"][2]
+	"
+	let str_cmd = "-d " . print_dest . " " . "-n " . print_num . " "
+	"
+	if print_type == "Booklet"
+		"
+		"let str_cmd = "!python2 ~/help/booklet-05.py " . str_cmd
+		let str_cmd = "python2 ~/help/booklet-05.py " . str_cmd
+		"
+		if print_range == "All"
+			let str_cmd .= "-p - "
+		else
+			let str_cmd .= "-p " . print_range . " "
+		endif
+		"
+		let str_cmd .= "-f "
+		"
+	else
+		"Not booklet
+		"
+		"let str_cmd = "!lp -o fit-to-page " . str_cmd
+		let str_cmd = "lp -o fit-to-page " . str_cmd
+		"
+		if print_range != "All"
+			let str_cmd .= "-o page-ranges=" . print_range . " "
+		endif
+		"
+		if print_type == "Slides"
+			let str_cmd .= "-o number-up=4 -o number-up-layout=\"btlr\" -o page-border=\"single-thick\" "
+		endif
+		"
+		if print_type != "Poster"
+			let str_cmd .=  "-o sides=" . print_sides . " "
+		endif
+		"
+	endif | " Booklet
+	"
+	"echom str_cmd
+	"execute "norm 0i" . str_cmd
+	"echom str_cmd
+	"return str_cmd
+	"
+	"let str_suffix = " | watch -d -n 1 lpq -P " . print_dest
+	let str_suffix = " | watch -d -n 1 lpstat -P " . print_dest
+	"
+	return [0, str_cmd, str_suffix]
+	"
+endfunction | " CustomPrintStr()
+
+
+

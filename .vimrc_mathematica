@@ -1,0 +1,7 @@
+" Mathematica mappings
+
+" Commenting
+   nmap <leader>c I(* <esc>A *)<esc>
+   nmap <leader>C A (**)<esc>hh
+   nmap <leader>K :s/\w\\|\s/*/g<cr>
+   nmap <leader>k <leader>cyyP<leader>Kjp<leader>Kk

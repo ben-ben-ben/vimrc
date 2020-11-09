@@ -1,0 +1,176 @@
+" TODO
+"
+" capital D and X to store in 'black hole' register
+" annul the effects of Caps-Lock
+
+" Disabling keys
+	"map <right> <nop>
+	"map <up>    <nop>
+	"map <left>  <nop>
+	"map <down>  <nop>
+	"map <esc>   <nop>
+
+
+" Syntax coloring
+   syn on
+   "colo koehler, evening, slate
+	"" red
+	" delek, pablo, zellner
+	"colo pablo
+	colorscheme zellner
+
+" when echo-ing messages, disable the "-- More -- SPACE/d/j: screen/page/line down, b/u/k: up, q: quit "
+	set nomore
+
+
+" Line numbering
+   set number
+   set relativenumber
+
+" line-break instead of line-wrapping
+   set linebreak
+
+" Create margins at top and bottom
+   " http://stackoverflow.com/questions/22283958/vim-scroll-below-the-end-of-the-document
+   " this option creates margins at the top and bottom of the screen
+   " so that when you veer too close to the top or bottom of screen, the text shifts accordingly
+   set scrolloff=7
+
+" Tab spacing and format
+   "set tabstop=3
+   "set shiftwidth=3
+   set softtabstop=0 noexpandtab
+   "set tabstop=3 softtabstop=0 expandtab shiftwidth=3 smarttab
+   set tabstop=3 softtabstop=0 shiftwidth=3 smarttab
+	
+	" Automatic indentation
+	"set autoindent
+	" No indentation
+	"setlocal noautoindent
+	"setlocal nocindent
+	"setlocal nosmartindent
+	"setlocal indentexpr=
+	" equivalently:
+	 setl noai nocin nosi inde=
+	 " want smart indent
+	 setl noai nocin si inde=
+
+
+
+" Shortcutting split navigation, saving a keypress:
+	map <C-h> <C-w>h
+	map <C-j> <C-w>j
+	map <C-k> <C-w>k
+	map <C-l> <C-w>l
+
+" Folding
+	set foldmethod=marker
+
+" For file explorer
+   "let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
+   let g:netrw_bufsettings = 'noma nomod relativenumber nu nowrap ro nobl'
+
+
+" For speed improvement
+   " from: http://www.sbf5.com/~cduan/download/?file=cduan.vim
+   set mouse=
+   "set showmatch
+   set noshowmatch
+   "set norelativenumber
+   "syntax sync minlines=256
+   "syntax sync minlines=1
+   "syntax sync maxlines=5
+   "syn sync maxlines=2
+   syn sync minlines=1
+   "
+   " From: https://www.reddit.com/r/vim/comments/3jdxln/is_using_vim_on_a_raspberry_pi_in_raspbian_a_good/
+   " From: http://stackoverflow.com/questions/16902317/vim-slow-with-ruby-syntax-highlighting
+   "set re=1
+   "set regexpengine=1
+   set ttyfast
+   "set lazyredraw
+   "
+   " From: http://vim.1045645.n5.nabble.com/Slow-Syntax-Highlighting-with-Latex-td5716260.html
+   let g:tex_fast= ""
+   "
+   " http://stackoverflow.com/questions/34675677/disable-highlight-matched-parentheses-in-vim-let-loaded-matchparen-1-not-w
+   "set noshowmatch
+   set nosm
+	let loaded_matchparen = 1
+   "let loaded_matchparen = 0
+
+	" no highlight match
+	"set nohl
+
+
+" File encoding
+   set encoding=utf-8
+
+
+" personal mappings
+"let mapleader = "--"
+"let mapleader = "\<C-L>"
+"let mapleader = "\<A-L>"
+"let mapleader = "\<A-`>"
+"let mapleader = "\<Tab>"
+" backspace
+"let mapleader = "\<BS>"
+"let mapleader = "\<C-h>"
+"map <BS> <Leader>
+"let mapleader = "\<BS>"
+" Fn-Z -- DOESNT WORK
+"let mapleader = "\<D-z>"
+" right-arrow key
+"let mapleader = "\<Right>"
+" sequence
+"let mapleader = "hjk"
+" F5
+let mapleader = "\<F5>"
+
+" edit and reload .vimrc file
+   nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+   nnoremap <leader>Ev :split  $MYVIMRC<cr>
+   nnoremap <leader>sv :source $MYVIMRC<cr>
+
+"nnoremap <leader>S :split | :setlocal nu
+
+" Escape sequences
+   imap <F11> <esc>
+   "inoremap <leader>l <esc>
+   inoremap <leader><leader> <esc>
+   vnoremap <leader><leader> <esc>
+   "inoremap jk <esc>
+   inoremap <Insert> <esc>
+   " map Ctrl+Shift to <esc>
+   "inoremap <C>
+
+" Lock terminal
+	nnoremap <leader><BS> :<c-u>!vlock<cr>
+
+" disable PageUp and PageDown
+   inoremap <PageUp> <esc>k
+   inoremap <PageDown> <esc>j
+
+" Save document
+   inoremap <leader>w <esc>:w<cr>
+
+" re-draw
+	"inoremap <leader>r redraw!
+
+" break line
+	"nnoremap <C-a> i<cr><esc>
+
+" Delete lines and chars to 'black hole' register
+	nmap <leader>d "_
+	"nnoremap X  "_x
+	"noremap DD <leader>ddd
+
+
+
+" From: http://vim.wikia.com/wiki/Compiling_LaTeX_from_Vim
+
+let b:tex_flavor = 'pdflatex'
+compiler tex
+set makeprg=pdflatex\ \-file\-line\-error\ \-interaction=nonstopmode
+set errorformat=%f:%l:\ %m
+
